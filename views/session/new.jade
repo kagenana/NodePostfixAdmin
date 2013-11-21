@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  form.login-form.ui-body.ui-body-b(id="login", action="/session", method="post")
+    fieldset
+      legend ログイン
+      label(for="login_username") ユーザ名
+      input(id="login_username", type="text", name="username", placeholder="username")
+      label(for="login_password") パスワード
+      input(id="login_password", type="password", name="password", placeholder="password")
+      
+      label(for="login_rememberme") ログイン情報を保持
+      input(id="login_rememberme", type="checkbox", name="rememberme")
+      
+      input(type="submit", value="ログイン")
