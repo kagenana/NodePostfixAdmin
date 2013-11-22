@@ -22,6 +22,15 @@ a {
 
   .login-form {
     margin: 0 auto;
+    margin-top: 10%;
+    width: 320px;
+    padding-right: 1.5em;
+    padding-bottom: 0.8em;
+  }
+
+  .register-form {
+    margin: 0 auto;
+    margin-top: 10%;
     width: 320px;
     padding-right: 1.5em;
     padding-bottom: 0.8em;

@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  section(id="index", data-role="page")
+    header(data-role="header")
+      h6 NodePostfixAdmin
+      a.ui-btn-right(href="#page1", data-transition="slide") 新規作成
+    article(data-role="contents")
+      fieldset
+        legend メニュー
+          ul(id="menu_list")
+            for i in menu
+              li
+                a(href="#{i.url}") #{i.name}
