@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  p #{title}
+    section
+    each post in posts
+      h2 #{post.title}
+      p #{post.created_at}
+      p #{post.detail}
+  p
+    a(href="/menu") Return

@@ -21,6 +21,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+//app.redirect('top', '/menu');
 
 // development only
 if ('development' == app.get('env')) {
@@ -32,6 +33,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 // GET /menu
+app.get('/menu/:id?', routes.menu.page)
 app.get('/menu', routes.menu.index)
 
 //POST /users
@@ -41,7 +43,7 @@ app.post('/users', routes.users.create);
 app.get('/session/new', routes.session.new);
 
 // POST /session
-app.post('session', routes.session.create);
+app.post('/session', routes.session.create);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

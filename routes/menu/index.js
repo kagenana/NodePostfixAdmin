@@ -15,3 +15,22 @@ exports.index = function(req, res) {
     menu: menu
   });
 };
+
+var dummy_posts = [{
+  title: 'dummy_post',
+  detail: 'dummy messages',
+  username: 'example user',
+  created_at: new Date()
+}];
+
+exports.page = function(req, res, next) {
+  var id = req.param('id');
+  if (!id) {
+    return next();
+  }
+  res.render('menu/page', {
+    title: menu[id - 1].name,
+    id: id,
+    posts: dummy_posts
+  });
+};
