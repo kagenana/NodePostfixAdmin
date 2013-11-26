@@ -31,6 +31,6 @@ exports.create = function(req, res, next) {
       return next(err);
     }
     console.log(result);
-    res.redirect('top');
+    res.redirect('/session/new');
   });
 };

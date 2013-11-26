@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , models = require('./models')
+  , lib = require('./libs')
   , http = require('http')
   , path = require('path');
 
@@ -21,13 +22,15 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-//app.redirect('top', '/menu');
 
 // development only
 if ('development' == app.get('env')) {
   models.init('localhost', 'node_postfix_admin')
   app.use(express.errorHandler());
 }
+
+//Dynamic View Helper
+//app.dynamicHelpers(lib.dynamicHelpers);
 
 // GET /
 app.get('/', routes.index);
@@ -41,6 +44,7 @@ app.post('/users', routes.users.create);
 
 // GET /session
 app.get('/session/new', routes.session.new);
+app.get('/session/destroy', routes.session.delete);
 
 // POST /session
 app.post('/session', routes.session.create);

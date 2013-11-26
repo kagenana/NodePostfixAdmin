@@ -23,6 +23,12 @@ exports.create = function(req, res, next){
       return res.redirect('back');
     }
     console.log(result);
-    res.redirect('top');
+    req.session.username = result.username;
+    res.redirect('/menu');
   });
 };
+
+exports.delete = function(req, res) {
+  req.session.destroy();
+  res.redirect('/session/new')
+}
