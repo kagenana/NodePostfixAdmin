@@ -16,10 +16,29 @@ var app = express();
 app.set('port', process.env.PORT || 3001);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.locals.pretty = true;
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser('SecretKeyPhrase'))
+app.use(express.session());
+
+//Static View Helper
+app.locals({
+  title: 'Node Postfix Admin',
+  version: '0.00 alpha'
+});
+
+//Dynamic View Helper
+app.use(function(req, res, next) {
+  app.locals({
+    dynamicHelpers: lib.dynamicHelpers
+  });
+  //console.log(app.locals.dynamicHelpers.login_status());
+  next();
+});
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,25 +48,22 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-//Dynamic View Helper
-//app.dynamicHelpers(lib.dynamicHelpers);
-
 // GET /
 app.get('/', routes.index);
 
 // GET /menu
-app.get('/menu/:id?', routes.menu.page)
-app.get('/menu', routes.menu.index)
+app.get('/menu/:id?', routes.menu.page);
+app.get('/menu', routes.menu.index);
 
 //POST /users
 app.post('/users', routes.users.create);
 
 // GET /session
-app.get('/session/new', routes.session.new);
-app.get('/session/destroy', routes.session.delete);
+app.get('/sessions/new', routes.sessions.new);
+app.get('/sessions/destroy', routes.sessions.delete);
 
 // POST /session
-app.post('/session', routes.session.create);
+app.post('/sessions', routes.sessions.create);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
