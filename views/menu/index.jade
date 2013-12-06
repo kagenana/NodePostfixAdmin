@@ -4,7 +4,7 @@ block content
   section(id="index", data-role="page")
     header(data-role="header")
       h6 NodePostfixAdmin
-      p= dynamicHelpers.login_status
+      div!= login_status
     article(data-role="contents")
       fieldset
         legend メニュー
@@ -12,3 +12,5 @@ block content
             for i in menu
               li
                 a(href="#{i.url}") #{i.name}
+            li
+              a(href="/sessions/destroy") Logout

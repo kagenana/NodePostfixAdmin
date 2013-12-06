@@ -23,22 +23,21 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('SecretKeyPhrase'))
 app.use(express.session());
-
-//Static View Helper
-app.locals({
-  title: 'Node Postfix Admin',
-  version: '0.00 alpha'
-});
-
-//Dynamic View Helper
-app.use(function(req, res, next) {
+app.configure(function(req, res){
+  //Static View Helper
   app.locals({
-    dynamicHelpers: lib.dynamicHelpers
+    title: 'Node Postfix Admin',
+    version: '0.00 alpha'
   });
-  //console.log(app.locals.dynamicHelpers.login_status());
-  next();
-});
 
+  //Dynamic View Helper
+  app.use(function(req, res, next) {
+    app.locals.login_status = lib.login_status(req, res);
+    console.log(app.locals.login_status);
+    next();
+  });
+
+});
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
