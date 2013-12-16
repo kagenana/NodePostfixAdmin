@@ -8,7 +8,8 @@ var express = require('express')
   , models = require('./models')
   , lib = require('./libs')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , flash = require('connect-flash');
 
 var app = express();
 
@@ -23,20 +24,24 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('SecretKeyPhrase'))
 app.use(express.session());
-app.configure(function(req, res){
+app.use(flash());
+app.use(function(req, res, next){
   //Static View Helper
-  app.locals({
+  res.locals({
     title: 'Node Postfix Admin',
-    version: '0.00 alpha'
+    version: '0.00 alpha',
+    flash: req.flash(),
   });
+  next();
+});
 
+app.configure(function(req, res){
   //Dynamic View Helper
   app.use(function(req, res, next) {
     app.locals.login_status = lib.login_status(req, res);
     console.log(app.locals.login_status);
     next();
   });
-
 });
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));

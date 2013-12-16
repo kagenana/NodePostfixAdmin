@@ -20,7 +20,8 @@ exports.create = function(req, res, next){
       return next(err);
     }
     if (!result) {
-      return res.redirect('back');
+      req.flash('error', 'ログイン情報が誤っています。')
+      return res.redirect('/sessions/new');
     }
     console.log(result);
     req.session.username = result.username;

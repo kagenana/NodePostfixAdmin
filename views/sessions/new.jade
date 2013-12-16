@@ -9,14 +9,20 @@ block content
       form.login-form.ui-body.ui-body-b(id="login", action="/sessions", method="post")
         fieldset
           legend ログイン
+          if flash.error
+            div.ui-body.ui-body-e.ui-corner-all(data-icon="alert" ,style="text-align: center")= flash.error
           label(for="login_username") ユーザ名
           input(id="login_username", type="text", name="username", placeholder="username")
           label(for="login_password") パスワード
           input(id="login_password", type="password", name="password", placeholder="password")
           
-          label(for="login_rememberme") ログイン情報を保持
-          input(id="login_rememberme", type="checkbox", name="rememberme")
+          fieldset(data-role="fieldcontain", id="rememberme", name="rememberme", style="text-align: right")
+            label(for="login_rememberme", style="width: 200px") ログイン状態を保持
+            select(id="login_rememberme", data-role="slider", data-track-theme="c")
+              option(value="false") しない
+              option(value="true") する
           
+          //input(type="submit", value="ログイン")
           input(type="submit", value="ログイン")
 
   section(id="page1", data-role="page", data-add-back-btn="true", data-add-back-btn-text="戻る")

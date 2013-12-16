@@ -26,6 +26,7 @@ a {
     width: 320px;
     padding-right: 1.5em;
     padding-bottom: 0.8em;
+    border-radius: 20px;
   }
 
   .register-form {
@@ -34,5 +35,6 @@ a {
     width: 320px;
     padding-right: 1.5em;
     padding-bottom: 0.8em;
+    border-radius: 20px;
   }
 }
