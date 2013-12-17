@@ -8,6 +8,8 @@ block content
     article(data-role="contents")
       fieldset
         legend メニュー
+          if flash.info
+            div.ui-body.ui-body-d.ui-corner-all(style="text-align: center")= flash.info
           ul(id="menu_list")
             for i in menu
               li

@@ -8,8 +8,8 @@
   "dependencies": {
     "express": "3.2.6",
     "jade": "*",
-    "mongoose": "2.4.7",
-    "connect": "1.8.7",
+    "mongoose": "*",
+    "connect": "*",
     "connect-flash": "*"
   }
 }

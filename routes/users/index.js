@@ -31,6 +31,7 @@ exports.create = function(req, res, next) {
       return next(err);
     }
     console.log(result);
+    req.flash('info', 'アカウントを作成しました。')
     res.redirect('/sessions/new');
   });
 };
