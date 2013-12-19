@@ -21,17 +21,17 @@ exports.create = function(req, res, next){
     }
     if (!result) {
       req.flash('error', 'ログイン情報が誤っています。');
-      return res.redirect('/sessions/new');
+      return res.redirect('/sessions/new#index');
     }
     console.log(result);
     req.session.username = result.username;
     req.flash('info', 'ログインしました。');
-    return res.redirect('/menu');
+    return res.redirect('/menu/#index');
   });
 };
 
 exports.delete = function(req, res) {
   req.flash('info', 'ログアウトしました。');
   req.session.destroy();
-  return res.redirect('/sessions/new');
+  return res.redirect('/sessions/new#index');
 };

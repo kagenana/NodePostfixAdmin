@@ -4,7 +4,7 @@ block content
   section(id="index", data-role="page")
     header(data-role="header")
       h6 NodePostfixAdmin
-      a.ui-btn-right(href="#page1", data-transition="slide") 新規作成
+      a.ui-btn-right(href="#signup", data-transition="slide") 新規作成
     article(data-role="contents")
       form.login-form.ui-body.ui-body-b(id="login", action="/sessions", method="post")
         fieldset
@@ -27,7 +27,7 @@ block content
           //input(type="submit", value="ログイン")
           input(type="submit", value="ログイン")
 
-  section(id="page1", data-role="page", data-add-back-btn="true", data-add-back-btn-text="戻る")
+  section(id="signup", data-role="page", data-add-back-btn="true", data-add-back-btn-text="戻る")
     header(data-role="header")
       h6 Create User
     article(data-role="contents")
