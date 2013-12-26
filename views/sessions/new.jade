@@ -3,8 +3,7 @@ extends ../layout
 block content
   section(id="index", data-role="page")
     header(data-role="header")
-      h6 NodePostfixAdmin
-      a.ui-btn-right(href="#signup", data-transition="slide") 新規作成
+      include ../_inc/header_login.jade
     article(data-role="contents")
       form.login-form.ui-body.ui-body-b(id="login", action="/sessions", method="post")
         fieldset
@@ -29,7 +28,7 @@ block content
 
   section(id="signup", data-role="page", data-add-back-btn="true", data-add-back-btn-text="戻る")
     header(data-role="header")
-      h6 Create User
+      h6 新規ユーザ作成
     article(data-role="contents")
       form.register-form.ui-body.ui-body-b(id="register", action="/users", method="post")
         fieldset
@@ -43,5 +42,5 @@ block content
           input(id="register_password2", type="password", name="password2", placeholder="password")
           
           
-          input(type="submit", value="作成")
+          input(type="submit", value="ユーザ作成")
 

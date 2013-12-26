@@ -6,7 +6,6 @@ var User = models.UserModel;
 
 exports.new = function(req, res, next) {
   res.render('sessions/new', {
-    title: 'Login'
   });
 };
 
@@ -21,17 +20,17 @@ exports.create = function(req, res, next){
     }
     if (!result) {
       req.flash('error', 'ログイン情報が誤っています。');
-      return res.redirect('/sessions/new#index');
+      return res.redirect('/sessions/new');
     }
     console.log(result);
     req.session.username = result.username;
     req.flash('info', 'ログインしました。');
-    return res.redirect('/menu/#index');
+    return res.redirect('/menu');
   });
 };
 
 exports.delete = function(req, res) {
   req.flash('info', 'ログアウトしました。');
   req.session.destroy();
-  return res.redirect('/sessions/new#index');
+  return res.redirect('/sessions/new');
 };

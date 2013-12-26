@@ -11,13 +11,11 @@ var menu = [
 
 exports.index = function(req, res) {
   res.render('menu/index', {
-    title: 'Menu',
     menu: menu
   });
 };
 
 var dummy_posts = [{
-  title: 'dummy_post',
   detail: 'dummy messages',
   username: 'example user',
   created_at: new Date()

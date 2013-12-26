@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , models = require('./models')
   , lib = require('./libs')
+  , lang = require('./libs/lang_ja')
   , http = require('http')
   , path = require('path')
   , flash = require('connect-flash');
@@ -28,9 +29,8 @@ app.use(flash());
 app.use(function(req, res, next){
   //Static View Helper
   res.locals({
-    title: 'Node Postfix Admin',
-    version: '0.00 alpha',
     flash: req.flash(),
+    lang: lang
   });
   next();
 });
@@ -38,8 +38,9 @@ app.use(function(req, res, next){
 app.configure(function(req, res){
   //Dynamic View Helper
   app.use(function(req, res, next) {
-    app.locals.login_status = lib.login_status(req, res);
-    console.log(app.locals.login_status);
+    app.locals.login_status = lib.login_status(req, res)
+    app.locals.user_exist = lib.user_exist(req, res);
+    console.log("app: " + app.locals.user_exist);
     next();
   });
 });
