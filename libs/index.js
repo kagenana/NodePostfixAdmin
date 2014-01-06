@@ -3,6 +3,7 @@
  */
 var models = require('../models');
 var User = models.UserModel;
+var usernum = 0;
 
 exports.login_status = function(req, res) {
   if (req.session.username) {
@@ -14,20 +15,13 @@ exports.login_status = function(req, res) {
 };
 
 exports.user_exist = function(req, res) {
-  var count = user_count();
-  console.log(count)
-  if (count > 0) {
-    return true;
-  }
-  else {
-    return false;
-  }
-};
-
-function user_count(count) {
   User.count({}, function(err, count) {
     if (err) {
       console.log(err);
+      return 1;
     };
+    usernum = count;
   });
+  return usernum;
 };
+

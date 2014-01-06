@@ -40,7 +40,6 @@ app.configure(function(req, res){
   app.use(function(req, res, next) {
     app.locals.login_status = lib.login_status(req, res)
     app.locals.user_exist = lib.user_exist(req, res);
-    console.log("app: " + app.locals.user_exist);
     next();
   });
 });
