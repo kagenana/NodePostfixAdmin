@@ -25,3 +25,16 @@ exports.user_exist = function(req, res) {
   return usernum;
 };
 
+exports.loginRequired = function(req, res, next) {
+  if (req.session.username) {
+    return next();
+  }
+  res.redirect('/sessions/new');
+};
+
+var setCookie = exports.setCookie = function(res, val) {
+  res.cookie('authtoken', val, {
+    path: '/',
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1)
+  });
+};

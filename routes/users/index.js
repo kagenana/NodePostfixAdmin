@@ -8,6 +8,7 @@ exports.create = function(req, res, next) {
   var username = req.param('username');
   var password = req.param('password');
   var password2 =req.param('password2');
+  var rememberme = req.param('rememberme');
   
   var user = new User({
     username: username

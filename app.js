@@ -56,11 +56,11 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 // GET /menu
-app.get('/menu/:id?', routes.menu.page);
-app.get('/menu', routes.menu.index);
+app.get('/menu/:id?', lib.loginRequired, routes.menu.page);
+app.get('/menu', lib.loginRequired, routes.menu.index);
 
 //POST /users
-app.post('/users', routes.users.create);
+app.post('/users', lib.loginRequired, routes.users.create);
 
 // GET /session
 app.get('/sessions/new', routes.sessions.new);
