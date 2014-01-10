@@ -29,7 +29,46 @@ exports.loginRequired = function(req, res, next) {
   if (req.session.username) {
     return next();
   }
-  res.redirect('/sessions/new');
+  //res.redirect('/sessions/new');
+  
+  //no cookie or session
+  if(!req.cookies.authtoken){
+    return res.redirect('/sessions/new');
+  }
+  
+  //cookie
+  var token = JSON.parse(req.cookies.authtoken);
+  var condition = {
+      username: token.username,
+      authcookie: token.authcookie
+  }
+  
+  //authentication
+  User.findOne(condition, function(err, result){
+    if (err) {
+      return next(err);
+    }
+    
+    //authentication failed
+    if (!result) {
+      res.redirect('/sessions/new');
+    }
+    
+    //authcookie update
+    var update = { authcookie: models.getAuthCookie() };
+    User.update(condition, update, function (err, numAffected) {
+      if (err) {
+        return next(err);
+      }
+      req.session.username = result.username;
+      var newtoken = {
+          username: result.username,
+          authcookie: update.authcookie
+      };
+      setCookie(res, JSON.stringify(newtoken));
+      next();
+    });
+  });
 };
 
 var setCookie = exports.setCookie = function(res, val) {

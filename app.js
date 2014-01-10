@@ -23,8 +23,13 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser('SecretKeyPhrase'))
-app.use(express.session());
+app.use(express.cookieParser('SecretKeyPhrase'));
+app.use(express.session({
+  secret: 'examplesecretcode',
+  cookie: {
+    maxAge: false
+  }
+}));
 app.use(flash());
 app.use(function(req, res, next){
   //Static View Helper
