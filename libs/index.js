@@ -27,15 +27,20 @@ exports.user_exist = function(req, res) {
 
 exports.loginRequired = function(req, res, next) {
   if (req.session.username) {
+    console.log("Sessionがありました");
     return next();
   }
+  console.log("Sessionがありません");
+
   //res.redirect('/sessions/new');
   
   //no cookie or session
   if(!req.cookies.authtoken){
+    console.log("Cookieがありません");
     return res.redirect('/sessions/new');
   }
-  
+  console.log("Cookieがありました");
+
   //cookie
   var token = JSON.parse(req.cookies.authtoken);
   var condition = {
@@ -45,13 +50,15 @@ exports.loginRequired = function(req, res, next) {
   
   //authentication
   User.findOne(condition, function(err, result){
+    console.log(result);
     if (err) {
       return next(err);
     }
     
     //authentication failed
     if (!result) {
-      res.redirect('/sessions/new');
+      console.log("有効なCookieがありませんでした");
+      return res.redirect('/sessions/new');
     }
     
     //authcookie update
@@ -66,6 +73,7 @@ exports.loginRequired = function(req, res, next) {
           authcookie: update.authcookie
       };
       setCookie(res, JSON.stringify(newtoken));
+      console.log("Cookieを更新しました");
       next();
     });
   });
@@ -74,6 +82,7 @@ exports.loginRequired = function(req, res, next) {
 var setCookie = exports.setCookie = function(res, val) {
   res.cookie('authtoken', val, {
     path: '/',
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1)
+    expires: new Date(Date.now() + 1000 * 60 * 60 ) //5min
+    //expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1)
   });
 };
