@@ -28,19 +28,22 @@ exports.user_exist = function(req, res) {
 exports.loginRequired = function(req, res, next) {
   if (req.session.username) {
     console.log("Sessionがありました");
+    req.session.cookie.maxAge = new Date(Date.now() + 1000 * 60 * 15 );
     return next();
   }
-  console.log("Sessionがありません");
+  else {
+    console.log("Sessionがありません");
+    //return res.redirect('/sessions/new');
+  }
 
-  //res.redirect('/sessions/new');
-  
   //no cookie or session
   if(!req.cookies.authtoken){
     console.log("Cookieがありません");
     return res.redirect('/sessions/new');
   }
   console.log("Cookieがありました");
-
+  req.session.cookie.maxAge = false;
+  
   //cookie
   var token = JSON.parse(req.cookies.authtoken);
   var condition = {
