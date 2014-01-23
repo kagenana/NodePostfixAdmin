@@ -44,9 +44,9 @@ app.use(function(req, res, next){
 app.configure(function(req, res){
   //Dynamic View Helper
   app.use(function(req, res, next) {
-    app.locals.login_status = lib.login_status(req, res)
+    app.locals.login_status = lib.login_status(req, res);
     app.locals.user_exist = lib.user_exist(req, res);
-    app.locals.rememberme = req.session.rememberme;
+    app.locals.rememberme = lib.rememberme(req, res);
     next();
   });
 });

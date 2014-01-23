@@ -26,17 +26,17 @@ exports.create = function(req, res, next){
       req.flash('error', 'ログイン情報が誤っています。');
       return res.redirect('/sessions/new');
     }
-    console.log("rememberme: " + rememberme);
-    if (rememberme == "true") {
+    console.log("sessions.rememberme: " + rememberme);
+    req.session.rememberme = rememberme;
+    if (rememberme) {
       var newtoken = {
           username: result.username,
           authcookie: result.authcookie
       };
-      libs.setCookie(res, JSON.stringify(newtoken));
+      libs.setCookie(req, res, JSON.stringify(newtoken));
     }
     //console.log(result);
     req.session.username = result.username;
-    req.session.rememberme = rememberme;
     req.flash('info', 'ログインしました。');
     return res.redirect('/menu');
   });
