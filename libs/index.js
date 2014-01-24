@@ -4,24 +4,13 @@
 var models = require('../models');
 var User = models.UserModel;
 var usernum = 0;
-var expire = false;
+//var expire = false;
 
 exports.login_status = function(req, res) {
   if (req.session.username) {
     return true;
   }
   else {
-    return false;
-  };
-};
-
-exports.rememberme = function(req, res) {
-  if (req.session.rememberme == "true") {
-    console.log("libs.rememberme: true")
-    return true;
-  }
-  else {
-    console.log("libs.rememberme: false")
     return false;
   };
 };
@@ -41,7 +30,7 @@ exports.loginRequired = function(req, res, next) {
   if (req.session.username) {
     console.log("Sessionがありました");
     //req.session.cookie.maxAge = new Date(Date.now() + 1000 * 60 * 15 );
-    return next();
+    //return next();
   }
   else {
     console.log("Sessionがありません");
@@ -50,12 +39,14 @@ exports.loginRequired = function(req, res, next) {
 
   //no cookie or session
   if(!req.cookies.authtoken){
-    //req.flash('info', 'タイムアウトしました。再ログインしてください。');
+    if (req.session.username){
+      req.flash('info', 'タイムアウトしました。再ログインしてください。');
+    };
     console.log("Cookieがありません");
+    //req.session.username = "";
     return res.redirect('/sessions/new');
   }
   console.log("Cookieがありました");
-  req.session.cookie.maxAge = false;
   
   //cookie
   var token = JSON.parse(req.cookies.authtoken);
@@ -66,16 +57,16 @@ exports.loginRequired = function(req, res, next) {
   
   //authentication
   User.findOne(condition, function(err, result){
-    console.log(result);
+    console.log("authentication: " + result);
     if (err) {
       return next(err);
     }
     
     //authentication failed
     if (!result) {
-      req.flash('info', 'タイムアウトしました。再ログインしてください。');
+      //req.flash('info', 'タイムアウトしました。再ログインしてください。');
       console.log("有効なCookieがありませんでした");
-      return res.redirect('/sessions/new');
+      return next();//res.redirect('/sessions/new');
     }
     
     //authcookie update
@@ -97,15 +88,14 @@ exports.loginRequired = function(req, res, next) {
 };
 
 var setCookie = exports.setCookie = function(req, res, val) {
-  var expire = Date.now() + 1000 * 60 * 60;
-  if (req.session.rememberme) {
+  var expire = Date.now() + 1000 * 60 * 1;//60;
+  if (req.session.rememberme == "true") {
     console.log("setCookie: expire 1day");
-    expire = Date.now() + 1000 * 60 * 60 * 24;
+    expire = Date.now() + 1000 * 60 * 5;//60 * 24;
   };
  
   res.cookie('authtoken', val, {
     path: '/',
     expires: new Date(expire)
-    //expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1)
   });
 };
