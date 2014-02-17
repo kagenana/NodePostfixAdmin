@@ -41,9 +41,9 @@ exports.loginRequired = function(req, res, next) {
   if(!req.cookies.authtoken){
     if (req.session.username){
       req.flash('info', 'タイムアウトしました。再ログインしてください。');
+      req.session.username = null;
     };
     console.log("Cookieがありません");
-    //req.session.username = "";
     return res.redirect('/sessions/new');
   }
   console.log("Cookieがありました");
